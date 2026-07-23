@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ralph Liberto — Resonant Engineering Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0B0F19',
+                            card: '#161F30',
+                            copper: '#D97706',
+                            amber: '#F59E0B',
+                            teal: '#10B981',
+                            slate: '#475569'
+                        }
+                    },
+                    boxShadow: {
+                        'glow-copper': '0 0 25px rgba(217, 119, 6, 0.25)',
+                        'glow-teal': '0 0 25px rgba(16, 185, 129, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0B0F19;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #D97706;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(217, 119, 6, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(217, 119, 6, 0.5); }
+        }
+        .pulse-glow-button {
+            animation: pulse-glow 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-[#0B0F19] text-slate-100 min-h-full flex flex-col font-sans selection:bg-amber-500/30 selection:text-amber-200 overflow-x-hidden">
+
+    <!-- INTERACTIVE SPLASH ENTRANCE (Autoplay Bypass & Experience Hook) -->
+    <div id="experience-splash" class="fixed inset-0 z-[6] flex flex-col items-center justify-center bg-[#070A12] transition-all duration-1000 ease-in-out px-4">
+        <div class="max-w-md w-full text-center space-y-8">
+            <!-- Pulsing Logo Emblem -->
+            <div class="relative w-40 h-44 mx-auto flex items-center justify-center">
+                <div class="absolute inset-0 bg-gradient-to-tr from-amber-600 to-orange-500 rounded-3xl opacity-20 blur-xl animate-pulse"></div>
+                <div class="w-32 h-32 rounded-2xl bg-slate-900 border border-slate-800 shadow-glow-copper flex items-center justify-center relative overflow-hidden group">
+                    <span class="text-amber-500 font-black text-5xl tracking-tighter relative z-10 select-none">LinQ</span>
+                </div>
+            </div>
+            
+            <div class="space-y-3">
+                <h2 class="text-xs font-bold text-amber-500 uppercase tracking-widest">Multimedia Experience</h2>
+                <h1 class="text-3xl font-black text-slate-100 tracking-tight">Ralph Liberto</h1>
+                <p class="text-sm text-slate-400 leading-relaxed max-w-sm mx-auto">
+                    Welcome to the Project LINK portfolio. Click below to un-mute and initialize the cognitive multimedia logo sequence.
+                </p>
+            </div>
+            
+            <div>
+                <button onclick="enterExperience()" class="pulse-glow-button inline-flex items-center gap-3 bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 text-white font-bold px-8 py-4 rounded-xl shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 text-md tracking-wide">
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    Enter the Renaissance
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HIDDEN BACKGROUND AUDIO/VIDEO SEQUENCER -->
+    <audio id="logo-soundtrack" preload="auto">
+        <source src="LinQ animated logo.mp4" type="audio/mp4">
+    </audio>
+
+    <!-- GLOBAL GLASSMORPHIC HEADER -->
+    <header class="sticky top-0 z-50 bg-[#0B0F19]/80 backdrop-blur-md border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo & Brand -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-amber-600 to-amber-400 p-0.5 shadow-lg shadow-amber-500/10 flex items-center justify-center">
+                        <span class="text-brand-dark font-black text-xl tracking-tighter">RL</span>
+                    </div>
+                    <div>
+                        <span class="text-lg font-bold bg-gradient-to-r from-amber-400 via-orange-300 to-slate-100 bg-clip-text text-transparent tracking-tight block">Ralph Liberto</span>
+                        <span class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase">Resonant Systems Architect</span>
+                    </div>
+                </div>
+
+                <!-- SPA Tab Navigation Controls -->
+                <nav class="hidden md:flex items-center gap-1 bg-slate-950/60 p-1.5 rounded-full border border-slate-800/50">
+                    <button onclick="switchTab('home')" id="nav-home" class="tab-btn px-5 py-2 rounded-full text-sm font-semibold tracking-wide transition-all duration-300 bg-gradient-to-r from-amber-600 to-orange-500 text-white shadow-lg shadow-amber-500/10">
+                        Home & Project LINK
+                    </button>
+                    <button onclick="switchTab('patent')" id="nav-patent" class="tab-btn px-5 py-2 rounded-full text-sm font-semibold tracking-wide transition-all duration-300 text-slate-400 hover:text-white hover:bg-slate-900/40">
+                        Patent Deep Dive
+                    </button>
+                    <button onclick="switchTab('enterprise')" id="nav-enterprise" class="tab-btn px-5 py-2 rounded-full text-sm font-semibold tracking-wide transition-all duration-300 text-slate-400 hover:text-white hover:bg-slate-900/40">
+                        Enterprise Portfolio
+                    </button>
+                </nav>
+
+                <!-- Action Button -->
+                <div class="flex items-center gap-3">
+                    <a href="#contact-section" onclick="switchTab('home'); setTimeout(() => document.getElementById('contact-section').scrollIntoView({behavior: 'smooth'}), 105);" class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-850 hover:to-slate-750 text-amber-400 hover:text-amber-300 px-5 py-2.5 rounded-xl border border-amber-500/20 hover:border-amber-500/40 font-semibold text-sm transition-all duration-300 shadow-md">
+                        Get In Touch
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN SPA VIEWS WRAPPER -->
+    <main class="flex-grow">
+        
+        <!-- ==================== TAB 1: HOME PAGE & PROJECT LINK HUB ==================== -->
+        <div id="tab-view-home" class="tab-view block py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+                
+                <!-- HERO CALLOUT & MOTIVATION -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-semibold uppercase tracking-wider">
+                            ⚡ Google AI Certified Professional
+                        </div>
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-100 tracking-tight leading-tight">
+                            While some view this as a time for retrenchment, <span class="bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 bg-clip-text text-transparent">I view it as the next Renaissance!</span>
+                        </h1>
+                        <p class="text-lg text-slate-300 leading-relaxed max-w-2xl">
+                            Bridging the past to the future with advanced generative AI (Gemini) to build human-centric cognitive scaffolding.
+                        </p>
+                        
+                        <!-- Media Launchers Card -->
+                        <div class="bg-slate-900/60 p-5 rounded-2xl border border-slate-800/80 max-w-xl space-y-4">
+                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-widest block font-sans">Interactive Media Room</span>
+                            <div class="grid grid-cols-2 gap-4">
+                                <a href="#video-theater" class="flex items-center gap-3 p-3 rounded-xl bg-[#0B0F19]/90 border border-slate-800 hover:border-amber-500/30 transition-all duration-300 group">
+                                    <div class="w-10 h-10 rounded-lg bg-amber-500/15 flex items-center justify-center text-amber-500 group-hover:scale-105 transition-transform">
+                                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                    </div>
+                                    <div class="text-left">
+                                        <span class="text-xs font-bold text-slate-200 block truncate">Watch Explainer</span>
+                                        <span class="text-[10px] text-slate-400 block">The Lifespan Defense</span>
+                                    </div>
+                                </a>
+                                <button onclick="switchTab('patent')" class="flex items-center gap-3 p-3 rounded-xl bg-[#0B0F19]/90 border border-slate-800 hover:border-amber-500/30 transition-all duration-300 group">
+                                    <div class="w-10 h-10 rounded-lg bg-amber-500/15 flex items-center justify-center text-amber-500 group-hover:scale-105 transition-transform">
+                                        <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                    </div>
+                                    <div class="text-left">
+                                        <span class="text-xs font-bold text-slate-200 block truncate">Review Patent</span>
+                                        <span class="text-[10px] text-slate-400 block">App 64/090,114</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- LinQ Branding Visual Loop -->
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="relative w-full max-w-sm aspect-square rounded-3xl bg-gradient-to-tr from-slate-900 to-[#161F30] p-1 border border-slate-800/80 shadow-glow-copper flex flex-col items-center justify-center text-center space-y-6">
+                            <!-- Loop HTML5 Video -->
+                            <video id="logo-loop-video" class="w-32 h-32 rounded-2xl object-cover border border-slate-800 bg-slate-950" autoplay muted loop playsinline>
+                                <source src="LinQ animated logo.mp4" type="video/mp4">
+                                <!-- Fallback high-fidelity SVG -->
+                                <div class="w-32 h-32 rounded-2xl bg-slate-950 flex items-center justify-center text-amber-500 font-black text-4xl border border-slate-800 shadow-inner">
+                                    LinQ
+                                </div>
+                            </video>
+                            
+                            <div class="space-y-2">
+                                <h3 class="text-2xl font-black tracking-widest text-slate-200 uppercase">PROJECT LinQ</h3>
+                                <p class="text-xs text-amber-400 font-semibold tracking-wider">LIFELONG N-LEARNING KEYS</p>
+                                <p class="text-sm text-slate-400 max-w-xs mx-auto px-4">
+                                    Adaptive Musical Training & Predictive Neurocognitive Therapeutics
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COGNITIVE DEFENSE PRESENTATION SYSTEM (THE VIDEO ARCHITECTURE) -->
+                <div id="video-theater" class="scroll-mt-24 bg-gradient-to-r from-slate-950 to-slate-900 p-8 rounded-3xl border border-slate-800/85 space-y-8 shadow-2xl">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-extrabold text-slate-100 flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-amber-500 animate-pulse"></span>
+                                Clinical Architecture & Strategic Overview
+                            </h2>
+                            <p class="text-sm text-slate-400">
+                                Direct visual brief tracking Project LINK's mission to combat biological decay and AGI job displacement.
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-slate-400 font-semibold bg-slate-900 px-4 py-2 rounded-full border border-slate-800">
+                            📁 Video Asset: <span class="text-amber-400 font-bold truncate">Project_LINK__The_Lifespan_Defense_Architecture.mp4</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Custom Cinema Player Row -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        <div class="lg:col-span-7 bg-black rounded-2xl overflow-hidden border border-slate-800/80 shadow-inner aspect-video flex items-center justify-center relative group">
+                            <video id="master-theater-video" class="w-full h-full object-contain" controls>
+                                <source src="Project_LINK__The_Lifespan_Defense_Architecture.mp4" type="video/mp4">
+                                <div class="p-8 text-center max-w-md">
+                                    <div class="w-16 h-16 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center mx-auto mb-4 border border-amber-500/20">
+                                        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                    </div>
+                                    <h4 class="text-lg font-bold text-slate-300 mb-2">Video Resource Ready</h4>
+                                    <p class="text-sm text-slate-400">
+                                        To view, save this index.html file inside the folder containing <code class="text-amber-400 text-xs font-mono">Project_LINK__The_Lifespan_Defense_Architecture.mp4</code>.
+                                    </p>
+                                </div>
+                            </video>
+                        </div>
+                        
+                        <!-- Interlocking Chapter Outline -->
+                        <div class="lg:col-span-5 flex flex-col justify-between space-y-6">
+                            <div class="space-y-4">
+                                <h3 class="text-sm font-bold text-amber-400 uppercase tracking-widest">Macroeconomic & Neurological Cues</h3>
+                                
+                                <div class="space-y-3 max-h-[250px] overflow-y-auto custom-scrollbar pr-2">
+                                    <div class="p-3 rounded-xl bg-slate-900/40 border border-slate-800 hover:border-slate-700 transition-all">
+                                        <span class="text-xs font-bold text-slate-300 block mb-1">Slide 1-2: The Burden & Preventative Framework</span>
+                                        <p class="text-xs text-slate-400">Traditional medicine uses reactive, high-cost crisis management. Project LINK deploys active keyboard training upstream.</p>
+                                    </div>
+                                    <div class="p-3 rounded-xl bg-slate-900/40 border border-slate-800 hover:border-slate-700 transition-all">
+                                        <span class="text-xs font-bold text-slate-300 block mb-1">Slide 3-4: The 3-Tier Hub-and-Spoke Infrastructure</span>
+                                        <p class="text-xs text-slate-400">Classroom Edge Nodes link biometric telemetry, regional imaging centers, and central Neuromusic AI engines.</p>
+                                    </div>
+                                    <div class="p-3 rounded-xl bg-slate-900/40 border border-slate-800 hover:border-slate-700 transition-all">
+                                        <span class="text-xs font-bold text-slate-300 block mb-1">Slide 5-6: +$458.5M Systemic Health Deflection Ledger</span>
+                                        <p class="text-xs text-slate-400">Actuarial models of senior workplace retention, delayed retirement, and Medicaid deflection.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Actuarial Summary Card -->
+                            <div class="bg-[#161F30] p-4 rounded-xl border border-slate-800 flex items-center justify-between gap-4">
+                                <div>
+                                    <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">30-Year Scaling Target</span>
+                                    <span class="text-2xl font-black text-emerald-400 tracking-tight block">+$458.5M</span>
+                                    <span class="text-xs text-slate-300">Net Macroeconomic Surplus</span>
+                                </div>
+                                <div class="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                                    <svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CLINICAL & FISCAL TRIAD PANEL -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Pediatric Cohort -->
+                    <div class="bg-slate-900/40 p-6 rounded-2xl border border-slate-800/80 space-y-4">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold">01</div>
+                        <h3 class="text-lg font-bold text-slate-200">Pediatric Cohort (Ages 7-10)</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed font-sans">
+                            Accelerates auditory pathway maturation and triggers corpus callosum structural expansion to actively repair phonological deficits and developmental dyslexia.
+                        </p>
+                    </div>
+                    <!-- Geriatric Cohort -->
+                    <div class="bg-slate-900/40 p-6 rounded-2xl border border-slate-800/80 space-y-4">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold">02</div>
+                        <h3 class="text-lg font-bold text-slate-200">Geriatric Cohort (Ages 65-80)</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Stabilizes structural density in the brain's fornix tract, building cognitive reserve to reduce clinical dementia risk by 64% and delay memory care transition.
+                        </p>
+                    </div>
+                    <!-- Upstream Deflection -->
+                    <div class="bg-slate-900/40 p-6 rounded-2xl border border-slate-800/80 space-y-4">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold">03</div>
+                        <h3 class="text-lg font-bold text-slate-200">Workforce Co-Design</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Co-designs highly skilled, automation-resistant human careers—Classroom Support Professionals and Developmental Specialists—shielding workers from AGI displacement.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- CONTACT / INQUIRY FORM -->
+                <div id="contact-section" class="bg-slate-900/50 p-8 rounded-3xl border border-slate-800 max-w-3xl mx-auto space-y-8">
+                    <div class="text-center space-y-2">
+                        <h2 class="text-2xl font-bold text-slate-100">Initiate Collaboration</h2>
+                        <p class="text-sm text-slate-400 max-w-md mx-auto">
+                            Submit your contact information and details regarding institutional collaborations, grants, or consulting opportunities.
+                        </p>
+                    </div>
+                    
+                    <form onsubmit="event.preventDefault(); alert('Submission Simulated! Ralph looks forward to speaking with you.');" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-1">
+                            <label class="text-xs font-semibold text-slate-400 block">Your Name</label>
+                            <input type="text" required class="w-full bg-[#0B0F19] border border-slate-800 focus:border-amber-500/50 rounded-lg p-3 text-sm text-slate-200 focus:outline-none transition-all">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs font-semibold text-slate-400 block">Email Address</label>
+                            <input type="email" required class="w-full bg-[#0B0F19] border border-slate-800 focus:border-amber-500/50 rounded-lg p-3 text-sm text-slate-200 focus:outline-none transition-all">
+                        </div>
+                        <div class="space-y-1 md:col-span-2">
+                            <label class="text-xs font-semibold text-slate-400 block">Query Type</label>
+                            <select class="w-full bg-[#0B0F19] border border-slate-800 focus:border-amber-500/50 rounded-lg p-3 text-sm text-slate-200 focus:outline-none transition-all">
+                                <option>Grant Committee / Academic Collaboration Query</option>
+                                <option>Enterprise Advisory / Corporate Consulting Engagement</option>
+                                <option>SaaS Partnership / Investor Inquiry</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1 md:col-span-2">
+                            <label class="text-xs font-semibold text-slate-400 block">Inquiry Details</label>
+                            <textarea rows="4" required class="w-full bg-[#0B0F19] border border-slate-800 focus:border-amber-500/50 rounded-lg p-3 text-sm text-slate-200 focus:outline-none transition-all"></textarea>
+                        </div>
+                        <div class="md:col-span-2 text-right">
+                            <button type="submit" class="bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 text-white font-semibold py-3 px-8 rounded-lg shadow-lg shadow-amber-500/15 transition-all text-sm">
+                                Submit Query
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================== TAB 2: PATENT DEEP DIVE ==================== -->
+        <div id="tab-view-patent" class="tab-view hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+                
+                <!-- Page Header with Official App Identifier -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-800 pb-8">
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold text-amber-500 uppercase tracking-widest block">Provisional Patent Submission</span>
+                        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100 tracking-tight">
+                            Patent Application 64/090,114 Deep Dive
+                        </h1>
+                        <p class="text-slate-400 max-w-3xl text-sm">
+                            A highly structured bio-digital Closed-Loop interface streaming real-time student key metrics and physiological markers to secure local and centralized server frameworks.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800 text-left md:text-right space-y-1 min-w-[200px]">
+                        <span class="text-[10px] text-slate-400 uppercase tracking-wider block">Class II SaMD Device Target</span>
+                        <span class="text-md font-bold text-amber-400 block">De Novo Clearance Target</span>
+                        <span class="text-xs text-slate-300">BIDS-Compliant Data Format</span>
+                    </div>
+                </div>
+
+                <!-- CLINICAL BRAIN PATHWAY COHERENCE DIAGRAM -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-6 space-y-6">
+                        <h2 class="text-2xl font-bold text-slate-100">Fig 2.2: Active Musical Coherence vs Cognitive Chaos</h2>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Diffusion Tensor Imaging (DTI) and functional MRI sequences map Fractional Anisotropy (FA) tracking zones. Consistent piano training builds microstructural density in the corpus callosum and fornix, establishing active pathways (Organized) to deflect dementia-driven neural disconnection (Disorganized).
+                        </p>
+                        
+                        <!-- Custom SVG Brain Coherence Illustration -->
+                        <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 shadow-glow-copper flex items-center justify-center">
+                            <svg class="w-full max-w-[420px]" viewBox="0 0 500 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Brain Head Left (Organized) -->
+                                <g transform="translate(10, 0)">
+                                    <path d="M120 40C160 40 180 70 180 110C180 150 160 180 120 180C115 180 110 185 110 190V210" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+                                    <path d="M120 180C80 180 60 150 60 110C60 70 80 40 120 40Z" stroke="#475569" stroke-width="3"/>
+                                    <!-- Structured Pathway Lines (Organized Neural Tracts) -->
+                                    <path d="M75 110C75 80 95 60 120 60C145 60 165 80 165 110" stroke="#F59E0B" stroke-width="2" fill="none" opacity="0.8"/>
+                                    <path d="M85 110C85 90 100 75 120 75C140 75 155 90 155 110" stroke="#F59E0B" stroke-width="1.5" fill="none" opacity="0.6"/>
+                                    <path d="M95 110C95 100 105 90 120 90C135 90 145 100 145 110" stroke="#F59E0B" stroke-width="1" fill="none" opacity="0.4"/>
+                                    <text x="120" y="230" fill="#F59E0B" font-size="14" font-weight="bold" text-anchor="middle">Organized (Coherence)</text>
+                                </g>
+                                
+                                <!-- Brain Head Right (Disorganized / Chaos) -->
+                                <g transform="translate(250, 0)">
+                                    <path d="M120 40C160 40 180 70 180 110C180 150 160 180 120 180C115 180 110 185 110 190V210" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+                                    <path d="M120 180C80 180 60 150 60 110C60 70 80 40 120 40Z" stroke="#475569" stroke-width="3"/>
+                                    <!-- Scribbled Chaotic Lines (Dementing Pathways) -->
+                                    <path d="M80 70C90 110 70 120 110 80C140 110 120 140 150 90C160 130 130 150 110 120C90 140 85 110 100 150" stroke="#EF4444" stroke-width="2" fill="none" opacity="0.8"/>
+                                    <text x="120" y="230" fill="#EF4444" font-size="14" font-weight="bold" text-anchor="middle">Disorganized (Chaos)</text>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- 3-Layer System Sub-Tabs Component -->
+                    <div class="lg:col-span-6 space-y-6">
+                        <h2 class="text-2xl font-bold text-slate-100">3-Layer Hub-and-Spoke System</h2>
+                        <p class="text-sm text-slate-400">
+                            Click the layers below to view details of the closed-loop system design from client edge devices to diagnostic networks.
+                        </p>
+                        
+                        <div class="flex gap-2 border-b border-slate-800 pb-2">
+                            <button onclick="switchPatentSubTab('tier1')" id="sub-nav-tier1" class="sub-tab-btn px-4 py-2 text-xs font-bold rounded-lg transition-all duration-300 bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                                Tier 1: Local Edge Spoke
+                            </button>
+                            <button onclick="switchPatentSubTab('tier2')" id="sub-nav-tier2" class="sub-tab-btn px-4 py-2 text-xs font-bold rounded-lg transition-all duration-300 text-slate-400 hover:text-slate-200">
+                                Tier 2: Regional fMRI Hub
+                            </button>
+                            <button onclick="switchPatentSubTab('tier3')" id="sub-nav-tier3" class="sub-tab-btn px-4 py-2 text-xs font-bold rounded-lg transition-all duration-300 text-slate-400 hover:text-slate-200">
+                                Tier 3: Central SaaS AI
+                            </button>
+                        </div>
+                        
+                        <!-- Tab Content Tier 1 -->
+                        <div id="patent-sub-view-tier1" class="patent-sub-view block space-y-4">
+                            <h4 class="text-lg font-bold text-slate-200">Tier 1 — Student Station & Biometric Telemetry Spoke</h4>
+                            <p class="text-sm text-slate-400 leading-relaxed">
+                                The student workstation incorporates a weighted MIDI-enabled keyboard paired with a wireless dry-electrode EEG headset streaming electrical activity at a latency threshold of $\Delta t \le 5\text{ms}$. Cognitive telemetry is analyzed locally to display targeted feedback indicators.
+                            </p>
+                        </div>
+                        
+                        <!-- Tab Content Tier 2 -->
+                        <div id="patent-sub-view-tier2" class="patent-sub-view hidden space-y-4">
+                            <h4 class="text-lg font-bold text-slate-200">Tier 2 — Regional fMRI Hub with Wayne Memorial & Geisinger</h4>
+                            <p class="text-sm text-slate-400 leading-relaxed">
+                                Connects regional clinical centers running BIDS-compliant 3-Tesla scanners. This layer collects neural tractography to track baseline, 6-month, and 12-month cortical thicknesses, verifying active neuroplastic gains in the corpus callosum and memory structures.
+                            </p>
+                        </div>
+                        
+                        <!-- Tab Content Tier 3 -->
+                        <div id="patent-sub-view-tier3" class="patent-sub-view hidden space-y-4">
+                            <h4 class="text-lg font-bold text-slate-200">Tier 3 — Central Cloud Core with Secure Federated Learning</h4>
+                            <p class="text-sm text-slate-400 leading-relaxed">
+                                Aggregates anonymous model gradients via privacy-preserving Federated Learning and Differential Privacy. The Central AI analyzes learning vectors to continuously refine and push customized musical training sequences back to local edge spokes.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CLAIMS SWITCH PANEL (INTERACTIVE SELECTOR) -->
+                <div class="bg-slate-900/60 p-8 rounded-3xl border border-slate-800/80 space-y-8">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-100 flex items-center gap-2">
+                            <span class="w-3.5 h-3.5 rounded bg-amber-500"></span>
+                            Interactive Patent Claims Index
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">Select an application claim below to view the formal legal filing text and its functional clinical or architecture translation.</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        <!-- Left Selector Grid -->
+                        <div class="lg:col-span-4 flex flex-col gap-3">
+                            <button onclick="loadPatentClaim(1)" id="btn-claim-1" class="claim-btn text-left p-4 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold transition-all duration-300">
+                                Claim 1: Therapeutic SaMD Interface
+                            </button>
+                            <button onclick="loadPatentClaim(2)" id="btn-claim-2" class="claim-btn text-left p-4 rounded-xl bg-slate-900/40 text-slate-400 border border-slate-800/80 hover:border-slate-700 font-bold transition-all duration-300">
+                                Claim 2: 3-Tier Edge Architecture
+                            </button>
+                            <button onclick="loadPatentClaim(3)" id="btn-claim-3" class="claim-btn text-left p-4 rounded-xl bg-slate-900/40 text-slate-400 border border-slate-800/80 hover:border-slate-700 font-bold transition-all duration-300">
+                                Claim 3: Predictive Fiscal modeling Ledger
+                            </button>
+                        </div>
+                        
+                        <!-- Right Detail Panel -->
+                        <div class="lg:col-span-8 bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-6">
+                            <div class="space-y-1">
+                                <span class="text-xs text-slate-400 uppercase tracking-wider block">Filing Subsection</span>
+                                <h3 id="claim-title" class="text-lg font-bold text-amber-400">Claim 1: Closed-Loop Musical Therapeutic SaMD Device Interface</h3>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block">Formal Patent Text</span>
+                                <p id="claim-formal-text" class="text-sm text-slate-300 leading-relaxed font-serif italic border-l-2 border-slate-800 pl-4">
+                                    "A neurocognitive therapeutic system comprising a dry-electrode EEG headband streaming alpha/theta band metrics, a weighted MIDI keyboard tracking keystroke velocity and rhythm timing offsets, and a local edge digital tablet rendering musical notation and analyzing student cognitive load to dynamically adapt educational difficulty."
+                                </p>
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block">Clinical Translation</span>
+                                <p id="claim-translation-text" class="text-sm text-slate-400 leading-relaxed">
+                                    Formally defines the local Student Edge Spoke workstation. It ensures that piano lessons are tailored in real time based on active biometric indicators of student fatigue, locking the learning trajectory in the optimal cognitive zone.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================== TAB 3: ENTERPRISE SYSTEMS PORTFOLIO ==================== -->
+        <div id="tab-view-enterprise" class="tab-view hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+                
+                <!-- Page Header with Sub-text -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-800 pb-8">
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold text-amber-500 uppercase tracking-widest block">Enterprise Consulting Highlights</span>
+                        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100 tracking-tight">
+                            Fortune 100 Technical Systems Architect
+                        </h1>
+                        <p class="text-slate-400 max-w-3xl text-sm">
+                            Mapping 15+ years of strategic systems planning, technical design, SaaS implementation support, and complex platform rationalization.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- CITIGROUP FRONT-TO-BACK RATIONALIZATION -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-6 space-y-6">
+                        <div class="flex items-center gap-3">
+                            <span class="px-3 py-1 rounded bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-wider">Citigroup Equities</span>
+                            <span class="text-xs text-slate-400">Trading Consolidation Blueprint</span>
+                        </div>
+                        <h2 class="text-2xl font-black text-slate-100">Global Equities Platform Integration Matrix</h2>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Structured rationalization of front-to-back trading architectures to resolve operational redundancy, reduce cost margins, and secure transaction auditing paths.
+                        </p>
+                        
+                        <!-- Flow Chart Diagram mapping front office to back office clearing -->
+                        <div class="space-y-4">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block">Core Integration Path</span>
+                            <div class="grid grid-cols-3 gap-3 text-center text-xs font-bold text-slate-200">
+                                <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl space-y-1 shadow-md">
+                                    <span class="text-amber-500 text-[10px] uppercase block tracking-wider">Front Office</span>
+                                    <span>Lava / ATD</span>
+                                    <span class="text-[9px] text-slate-400 block font-normal">Order Router & Execution</span>
+                                </div>
+                                <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl space-y-1 shadow-md">
+                                    <span class="text-amber-500 text-[10px] uppercase block tracking-wider">Middle Office</span>
+                                    <span>Primo Allocator</span>
+                                    <span class="text-[9px] text-slate-400 block font-normal">Trade Matching & Booking</span>
+                                </div>
+                                <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl space-y-1 shadow-md">
+                                    <span class="text-amber-500 text-[10px] uppercase block tracking-wider">Back Office</span>
+                                    <span>TML / IOWA Settlements</span>
+                                    <span class="text-[9px] text-slate-400 block font-normal">Auditing & Clearing Ledger</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:col-span-6 bg-slate-950 p-6 rounded-2xl border border-slate-800 flex items-center justify-center">
+                        <!-- Blueprint Graphic Box pointing to local Citigroup file (Citi front to back4.jpg) -->
+                        <a href="Citi front to back4.jpg" target="_blank" download="Citi front to back4.jpg" class="block w-full group">
+                            <div class="relative w-full max-w-md mx-auto aspect-[4/3] bg-slate-900/60 rounded-xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 flex flex-col items-center justify-center p-6 text-center space-y-4 shadow-lg group-hover:shadow-glow-copper">
+                                <div class="w-16 h-16 rounded-full bg-blue-500/10 text-blue-400 flex items-center justify-center border border-blue-500/20 group-hover:scale-110 transition-transform">
+                                    <svg class="w-8 h-8 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                </div>
+                                <div class="space-y-1">
+                                    <h4 class="text-md font-bold text-slate-200 group-hover:text-amber-400 transition-colors">Citigroup Integration Blueprint</h4>
+                                    <p class="text-xs text-slate-400 font-mono">Citi front to back4.jpg</p>
+                                </div>
+                                <p class="text-xs text-slate-400 max-w-xs leading-relaxed">
+                                    Click to open or download the high-resolution front-to-back trading system rationalization roadmap.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- JPMORGAN CHASE GTI DOCUMENT PORTAL -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-6 order-last lg:order-first bg-slate-950 p-6 rounded-2xl border border-slate-800 flex items-center justify-center">
+                        <!-- Blueprint Graphic Box pointing to local GTI Document Portal Proposal.pptx -->
+                        <a href="GTI Document Portal Proposal.pptx" download="GTI Document Portal Proposal.pptx" class="block w-full group">
+                            <div class="relative w-full max-w-md mx-auto aspect-[4/3] bg-slate-900/60 rounded-xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 flex flex-col items-center justify-center p-6 text-center space-y-4 shadow-lg group-hover:shadow-glow-copper">
+                                <div class="w-16 h-16 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center border border-amber-500/20 group-hover:scale-110 transition-transform">
+                                    <svg class="w-8 h-8 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                                </div>
+                                <div class="space-y-1">
+                                    <h4 class="text-md font-bold text-slate-200 group-hover:text-amber-400 transition-colors">GTI Document Portal Proposal</h4>
+                                    <p class="text-xs text-slate-400 font-mono">GTI Document Portal Proposal.pptx</p>
+                                </div>
+                                <p class="text-xs text-slate-400 max-w-xs leading-relaxed font-semibold">
+                                    Click to download Slide Deck: AI-Managed Access Portals & System Integration Matrices.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="lg:col-span-6 space-y-6">
+                        <div class="flex items-center gap-3">
+                            <span class="px-3 py-1 rounded bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-bold uppercase tracking-wider">JPMorgan Chase</span>
+                            <span class="text-xs text-slate-400">GTI Global Infrastructure</span>
+                        </div>
+                        <h2 class="text-2xl font-black text-slate-100">GTI Document Portal & Audit Architecture</h2>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Proposing structured single-source document platforms for managing Chase's global footprint—covering **2,300 technology rooms and colocations worldwide**. Ensures version consistency and scheduled stakeholder validation matrices to deflect compliance audits.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- DELOITTE SMART FACTORY ENTERPRISE DASHBOARD -->
+                <div class="bg-gradient-to-r from-slate-950 to-slate-900 p-8 rounded-3xl border border-slate-800 space-y-8 shadow-2xl">
+                    <!-- Header with Link to SMART FACTORY USER GUIDE DRAFT .pdf -->
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-800 pb-6">
+                        <div>
+                            <div class="flex items-center gap-3">
+                                <span class="px-3 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider">Deloitte Enterprise SaaS</span>
+                                <span class="text-xs text-slate-400">Smart Factory Fabric (SFF)</span>
+                            </div>
+                            <h2 class="text-2xl font-black text-slate-100 flex items-center gap-2 mt-2">
+                                <span class="w-3.5 h-3.5 rounded bg-emerald-500"></span>
+                                Interactive SFF Operator Dashboard
+                            </h2>
+                        </div>
+                        
+                        <!-- Smart Factory Link Download Card -->
+                        <a href="SMART FACTORY  USER GUIDE DRAFT  .pdf" download="SMART FACTORY  USER GUIDE DRAFT  .pdf" class="flex items-center gap-3 p-3 rounded-xl bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-emerald-500/30 transition-all duration-300 group">
+                            <div class="w-10 h-10 rounded-lg bg-emerald-500/15 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition-transform">
+                                <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            </div>
+                            <div class="text-left pr-4">
+                                <span class="text-xs font-bold text-slate-200 group-hover:text-emerald-400 block transition-colors">Download User Guide</span>
+                                <span class="text-[10px] text-slate-400 font-mono block">SMART FACTORY USER GUIDE DRAFT.pdf</span>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Dynamic Dashboard Layout Controls -->
+                    <div class="flex justify-end">
+                        <!-- Dynamic OEE Optimizer Control Toggle -->
+                        <div class="flex items-center gap-4 bg-slate-900 p-3 rounded-xl border border-slate-800">
+                            <div class="text-left space-y-0.5">
+                                <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Availability Toggle</span>
+                                <span class="text-xs text-slate-300 font-semibold">Planned vs Max Capacity</span>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="oee-optimizer-toggle" class="sr-only peer" onchange="toggleOeeOptimizers()">
+                                <div class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-300 after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Dynamic Dashboard Layout Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        <!-- Dynamic Numeric Indicators Column -->
+                        <div class="lg:col-span-4 flex flex-col justify-between gap-6">
+                            <!-- Overall OEE widget -->
+                            <div class="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 shadow-md">
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-2">Overall OEE Rating</span>
+                                <div class="flex items-baseline gap-2">
+                                    <span id="metric-oee" class="text-4xl font-black text-red-500 tracking-tight transition-colors duration-300">35.4%</span>
+                                    <span class="text-xs text-slate-400 font-medium">Target: 78%</span>
+                                </div>
+                            </div>
+                            <!-- Availability Widget -->
+                            <div class="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 shadow-md">
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-2">Availability Metric</span>
+                                <div class="flex items-baseline gap-2">
+                                    <span id="metric-avail" class="text-4xl font-black text-red-500 tracking-tight transition-colors duration-300">56.0%</span>
+                                    <span class="text-xs text-slate-400 font-medium">Target: 78%</span>
+                                </div>
+                            </div>
+                            <!-- OEE Lost Earnings Widget -->
+                            <div class="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 shadow-md">
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-2">Wichita Lost Earnings</span>
+                                <div class="flex items-baseline gap-2">
+                                    <span id="metric-losses" class="text-4xl font-black text-red-500 tracking-tight transition-colors duration-300">$9,500</span>
+                                    <span class="text-xs text-slate-400 font-medium">OEE Deviation Cost</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Interactive Factory Area Accordion list -->
+                        <div class="lg:col-span-8 bg-slate-950 p-6 rounded-2xl border border-slate-800 shadow-inner space-y-4">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block">Equipment Hierarchy Navigator</span>
+                            
+                            <div class="space-y-3">
+                                <!-- Area Row (Accordion Parent) -->
+                                <div class="rounded-xl border border-slate-800 overflow-hidden">
+                                    <button onclick="toggleAccordion('area1')" class="w-full flex items-center justify-between p-4 bg-slate-900/60 hover:bg-slate-900 transition-colors">
+                                        <div class="flex items-center gap-3">
+                                            <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase tracking-wider">AR1 Prefix</span>
+                                            <span class="text-sm font-bold text-slate-200">Molding and Conversion</span>
+                                        </div>
+                                        <span id="area1-arrow" class="text-xs text-slate-400 transition-transform duration-300">▼</span>
+                                    </button>
+                                    
+                                    <!-- Area Row Children (Accordion Content) -->
+                                    <div id="area1-content" class="hidden p-4 bg-slate-950/60 border-t border-slate-800 space-y-3 text-xs">
+                                        <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                                            <span class="text-slate-400">Line L1-Production Line</span>
+                                            <span class="font-bold text-slate-300">OEE Status: Normal</span>
+                                        </div>
+                                        <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                                            <span class="text-slate-400">Zone Z1-Molding Area</span>
+                                            <span class="font-bold text-slate-300">Status: Online</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-slate-400">Cell C101-Injection Molding</span>
+                                            <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 font-bold">1 Constraint Snoozed</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- GLOBAL FOOTER WITH FILE REFERENCE -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-10 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+            <p class="text-xs text-slate-500 font-semibold tracking-widest uppercase">
+                Active Client Source References & Presentation Media
+            </p>
+            <div class="flex flex-wrap justify-center gap-6 text-xs text-slate-400">
+                <span class="hover:text-amber-400 transition-colors font-mono">📁 Project_LINK__The_Lifespan_Defense_Architecture.mp4</span>
+                <span class="hover:text-amber-400 transition-colors font-mono">📁 Citi front to back4.jpg</span>
+                <span class="hover:text-amber-400 transition-colors font-mono">📁 GTI Document Portal Proposal.pptx</span>
+                <span class="hover:text-amber-400 transition-colors font-mono">📁 SMART FACTORY  USER GUIDE DRAFT  .pdf</span>
+            </div>
+            <div class="border-t border-slate-900/60 pt-6">
+                <p class="text-xs text-slate-600">
+                    &copy; 2026 Ralph Liberto. All Rights Reserved. Generated by NotebookLM.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE SPA SCRIPT -->
+    <script>
+        // Enter the experience (Autoplay audio sequencer bypass)
+        function enterExperience() {
+            const splash = document.getElementById('experience-splash');
+            const soundtrack = document.getElementById('logo-soundtrack');
+            
+            // Unmute and play soundtrack logo mp4 sequence
+            if (soundtrack) {
+                soundtrack.muted = false;
+                soundtrack.volume = 1.0;
+                soundtrack.play().catch(err => {
+                    console.log("Audio play prevented or errored:", err);
+                });
+            }
+            
+            // Fade out splash overlay
+            if (splash) {
+                splash.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                }, 1000);
+            }
+        }
+
+        // Switch between the three top-level SPA tabs
+        function switchTab(tabId) {
+            console.log("Switching tab to:", tabId);
+            
+            // Hide all tab content blocks
+            document.querySelectorAll('.tab-view').forEach(view => {
+                view.classList.add('hidden');
+                view.classList.remove('block');
+            });
+            
+            // Show selected tab view
+            const activeView = document.getElementById('tab-view-' + tabId);
+            if (activeView) {
+                activeView.classList.remove('hidden');
+                activeView.classList.add('block');
+            }
+            
+            // Reset nav bar button styles
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = 'tab-btn px-5 py-2 rounded-full text-sm font-semibold tracking-wide transition-all duration-300 text-slate-400 hover:text-white hover:bg-slate-900/40';
+            });
+            
+            // Style active nav button
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if (activeBtn) {
+                activeBtn.className = 'tab-btn px-5 py-2 rounded-full text-sm font-semibold tracking-wide transition-all duration-300 bg-gradient-to-r from-amber-600 to-orange-500 text-white shadow-lg shadow-amber-500/10';
+            }
+            
+            // Auto scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Toggle local patent sub-tabs (Figure 1, 2, 3)
+        function switchPatentSubTab(subTabId) {
+            document.querySelectorAll('.patent-sub-view').forEach(view => {
+                view.classList.add('hidden');
+                view.classList.remove('block');
+            });
+            
+            const activeView = document.getElementById('patent-sub-view-' + subTabId);
+            if (activeView) {
+                activeView.classList.remove('hidden');
+                activeView.classList.add('block');
+            }
+            
+            document.querySelectorAll('.sub-tab-btn').forEach(btn => {
+                btn.className = 'sub-tab-btn px-4 py-2 text-xs font-bold rounded-lg transition-all duration-300 text-slate-400 hover:text-slate-200';
+            });
+            
+            const activeBtn = document.getElementById('sub-nav-' + subTabId);
+            if (activeBtn) {
+                activeBtn.className = 'sub-tab-btn px-4 py-2 text-xs font-bold rounded-lg transition-all duration-300 bg-amber-500/10 text-amber-400 border border-amber-500/20';
+            }
+        }
+
+        // Patent claims database object
+        const patentClaims = {
+            1: {
+                title: "Claim 1: Closed-Loop Musical Therapeutic SaMD Device Interface",
+                formal: '"A neurocognitive therapeutic system comprising a dry-electrode EEG headband streaming alpha/theta band metrics, a weighted MIDI keyboard tracking keystroke velocity and rhythm timing offsets, and a local edge digital tablet rendering musical notation and analyzing student cognitive load to dynamically adapt educational difficulty."',
+                translation: "Formally defines the local Student Edge Spoke workstation. It ensures that piano lessons are tailored in real time based on active biometric indicators of student fatigue, locking the learning trajectory in the optimal cognitive zone."
+            },
+            2: {
+                title: "Claim 2: Multi-Tier Edge to Server Telemetry Aggregation Network",
+                formal: '"The system of claim 1, further comprising a secure localized server processing telemetry datasets via local REST API networks, a regional diagnostic server database tracking clinical fMRI Fractional Anisotropy datasets, and a central cloud server running federated gradient optimization architectures."',
+                translation: "Legal codification of the 3-Layer Hub-and-Spoke Infrastructure. This isolates sensitive patient data locally, while allowing regional fMRI scans and centralized federated AI models to safely communicate."
+            },
+            3: {
+                title: "Claim 3: Microeconomic Deflection Ledger & Predictive Actuarial Engine",
+                formal: '"The system of claim 2, further comprising an economic forecasting engine processor executing predictive actuarial calculations tracking older adult workforce longevity margins and municipal special education cost curves to model long-term Medicaid memory care deflection quotients."',
+                translation: "Secures the legal intellectual property for our socioeconomic modeling tool. This engine tracks how upstream cognitive preservation directly delays memory care transitions by 12-to-18 months, deflecting massive Medicaid expenditures."
+            }
+        };
+
+        // Load patent claims content dynamically
+        function loadPatentClaim(claimId) {
+            console.log("Loading claim:", claimId);
+            const claim = patentClaims[claimId];
+            if (claim) {
+                document.getElementById('claim-title').innerText = claim.title;
+                document.getElementById('claim-formal-text').innerText = claim.formal;
+                document.getElementById('claim-translation-text').innerText = claim.translation;
+            }
+            
+            document.querySelectorAll('.claim-btn').forEach(btn => {
+                btn.className = 'claim-btn text-left p-4 rounded-xl bg-slate-900/40 text-slate-400 border border-slate-800/80 hover:border-slate-700 font-bold transition-all duration-300';
+            });
+            
+            const activeBtn = document.getElementById('btn-claim-' + claimId);
+            if (activeBtn) {
+                activeBtn.className = 'claim-btn text-left p-4 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold transition-all duration-300';
+            }
+        }
+
+        // Toggle accordion rows (Deloitte SFF)
+        function toggleAccordion(accordionId) {
+            const content = document.getElementById(accordionId + '-content');
+            const arrow = document.getElementById(accordionId + '-arrow');
+            if (content) {
+                if (content.classList.contains('hidden')) {
+                    content.classList.remove('hidden');
+                    arrow.innerText = '▲';
+                } else {
+                    content.classList.add('hidden');
+                    arrow.innerText = '▼';
+                }
+            }
+        }
+
+        // Deloitte SFF Dynamic OEE recalculation script
+        function toggleOeeOptimizers() {
+            const toggle = document.getElementById('oee-optimizer-toggle');
+            const oeeLabel = document.getElementById('metric-oee');
+            const availLabel = document.getElementById('metric-avail');
+            const lossLabel = document.getElementById('metric-losses');
+            
+            if (toggle.checked) {
+                // Optimized values
+                oeeLabel.innerText = "56.4%";
+                oeeLabel.className = "text-4xl font-black text-emerald-400 tracking-tight transition-colors duration-300";
+                availLabel.innerText = "73.2%";
+                availLabel.className = "text-4xl font-black text-emerald-400 tracking-tight transition-colors duration-300";
+                lossLabel.innerText = "$1,450";
+                lossLabel.className = "text-4xl font-black text-emerald-400 tracking-tight transition-colors duration-300";
+            } else {
+                // Baseline (deviated) values
+                oeeLabel.innerText = "35.4%";
+                oeeLabel.className = "text-4xl font-black text-red-500 tracking-tight transition-colors duration-300";
+                availLabel.innerText = "56.0%";
+                availLabel.className = "text-4xl font-black text-red-500 tracking-tight transition-colors duration-300";
+                lossLabel.innerText = "$9,500";
+                lossLabel.className = "text-4xl font-black text-red-500 tracking-tight transition-colors duration-300";
+            }
+        }
+    </script>
+</body>
+</html>
